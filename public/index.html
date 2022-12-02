@@ -40,21 +40,24 @@
 
                 <!-- Botón de envío -->
                 <button class="btn btn-success mt-3" type="submit" id="btnProducts"
-                    onclick="return addNewProduct(this)">Enviar</button>
+                    onclick="return addProduct(this)">Enviar</button>
             </form>
             <br>
-            <div>
-                <div class="table-responsive">
-                    <table class="table">
-                        <tr>
-                            <th scope="col">Nombre</th>
-                            <th scope="col">Precio</th>
-                            <th scope="col">Imagen</th>
-                        </tr>
-                        <tbody id="productos">
+            <div class="tableProducts container m-1 p-3">
+                <div class="row mt-3 mb-1 d-flex align-items-around justify-content-evenly">
+                    <div class="col d-flex justify-content-start">
+                        <strong>Producto</strong>
+                    </div>
+                    <div class="col d-flex justify-content-start">
+                        <strong>Precio</strong>
+                    </div>
+                    <div class="col d-flex justify-content-start">
+                        <strong>Imagen</strong>
+                    </div>
+                </div>
+                <hr>
+                <div id= 'tableProducts'>
 
-                        </tbody>
-                    </table>
                 </div>
             </div>
         </div>
