@@ -23,7 +23,7 @@ app.use(express.static('public'));
 
 // Config socket
 io.on('connection', socket => {
-    console.log('Nuevo cliente conectado!');
+    console.log('Nueva conexión!');
     //productos
     const productos = producto.getAll();
     socket.emit('productos', productos);

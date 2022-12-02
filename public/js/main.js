@@ -27,8 +27,12 @@ function addProduct(){
         foto: foto
     }
 
-    socket.emit('newProduct', newProduct);
+    document.getElementById('nombre').value = ''
+    document.getElementById('precio').value = ''
+    document.getElementById('foto').value = ''
 
+    socket.emit('newProduct', newProduct);
+    
     return false
 }
 
@@ -41,7 +45,7 @@ socket.on('productos', data => {
 function renderChat(data){
     const html = data.map(item => {
         return (`<div>
-                    <strong>${item.author}</strong> [at ${item.time}]: <em>${item.text}</em>
+                    <strong>${item.author}</strong> [at ${item.date} - ${item.time}]: <em>${item.text}</em>
                 </div>
                 <hr>`)
     }).join(' ')
@@ -52,11 +56,13 @@ function renderChat(data){
 function addMessage() {
     const authorName = document.getElementById('author').value;
     const textMsn = document.getElementById('text').value;
-    const time = new Date();
+    const date = new Date().toLocaleDateString('es-ES');
+    const time = new Date().toLocaleTimeString();
 
     const message = {
         author: authorName,
         text: textMsn,
+        date: date,
         time: time
     }
 
