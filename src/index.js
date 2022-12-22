@@ -30,7 +30,7 @@ io.on('connection', async socket => {
     socket.emit('productos', productos);
 
     socket.on('newProduct', async data => {
-        producto.create(data);
+        await producto.create(data);
         const productos = await producto.getAll();
         io.sockets.emit('productos', productos);
     });
@@ -39,8 +39,9 @@ io.on('connection', async socket => {
     const messages = await chat.getAll();
     socket.emit('messages', messages)
     
-    socket.on('newMessage', message => {
-        chat.create(message);
+    socket.on('newMessage', async message => {
+        await chat.create(message);
+        const messages = await chat.getAll();
         io.sockets.emit('messages', messages);
     })
 });
