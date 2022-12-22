@@ -17,7 +17,7 @@ function renderProducts(data){
 }
 
 function addProduct(){
-    const producto = document.getElementById('nombre').value;
+    const producto = document.getElementById('producto').value;
     const precio = document.getElementById('precio').value;
     const foto = document.getElementById('foto').value;
 
@@ -27,7 +27,7 @@ function addProduct(){
         foto: foto
     }
 
-    document.getElementById('nombre').value = ''
+    document.getElementById('producto').value = ''
     document.getElementById('precio').value = ''
     document.getElementById('foto').value = ''
 

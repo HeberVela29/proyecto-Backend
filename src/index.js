@@ -1,53 +1,55 @@
-const express = require('express');
-const { Server: HttpServer } = require('http');
-const { Server: Socket } = require('socket.io');
+import express from 'express';
+import { options } from './config.js';
 
-const ProductsApi = require("./api/ProductsApi.js");
-const producto = new ProductsApi();
+import { Server as HttpServer } from 'http';
+import { Server as Socket } from 'socket.io';
 
-const ChatApi = require('./api/ChatApi.js');
-const chat = new ChatApi();
+import ProductosApi from "../api/ContenedorSQL.js";
+const producto = new ProductosApi(options, 'products');
+
+import ChatApi from '../api/ContenedorSQL.js';
+const chat = new ChatApi(options, 'chat');
 //--------------------------------------------
-// Instancio servidor, socket y api
+// instancio servidor, socket y api
 const app = express();
 const httpServer = new HttpServer(app);
 const io = new Socket(httpServer);
 
 //--------------------------------------------
-//  Middlewares
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static('public'));
+// agrego middlewares
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+app.use(express.static('public'))
 
 //--------------------------------------------
-
-// Config socket
-io.on('connection', socket => {
-    console.log('Nueva conexión!');
+// configuro el socket
+io.on('connection', async socket => {
+    console.log('Nuevo cliente conectado!');
     //productos
-    const productos = producto.getAll();
+    const productos = await producto.getAll();
     socket.emit('productos', productos);
 
-    socket.on('newProduct', data => {
+    socket.on('newProduct', async data => {
         producto.create(data);
+        const productos = await producto.getAll();
         io.sockets.emit('productos', productos);
     });
+    
     //mensajes
-    const messages = chat.getAll();
-    socket.emit('messages', messages);
+    const messages = await chat.getAll();
+    socket.emit('messages', messages)
     
     socket.on('newMessage', message => {
-        chat.newMessage(message);
+        chat.create(message);
         io.sockets.emit('messages', messages);
     })
 });
 
 //--------------------------------------------
+// inicio el servidor
 
-// Inicio server
-
-const PORT = 8080;
+const PORT = 8080
 const connectedServer = httpServer.listen(PORT, () => {
-    console.log(`Servidor http escuchando en el puerto ${connectedServer.address().port}`);
+    console.log(`Servidor http escuchando en el puerto ${connectedServer.address().port}`)
 })
-connectedServer.on('error', error => console.log(`Error en servidor ${error}`));
+connectedServer.on('error', error => console.log(`Error en servidor ${error}`))
