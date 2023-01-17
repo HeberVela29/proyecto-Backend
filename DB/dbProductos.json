@@ -1,0 +1,30 @@
+[
+  {
+    "title": "coke",
+    "price": "300",
+    "descripción": "gaseosa",
+    "thumbnail": "test-url",
+    "id": 2
+  },
+  {
+    "title": "sprite",
+    "price": "250",
+    "descripción": "gaseosa",
+    "thumbnail": "test-url",
+    "id": 3
+  },
+  {
+    "title": "sprite",
+    "price": "250",
+    "descripción": "gaseosa",
+    "thumbnail": "test-url",
+    "id": 4
+  },
+  {
+    "title": "schweppes",
+    "price": "400",
+    "descripción": "gaseosa",
+    "thumbnail": "test-url",
+    "id": 5
+  }
+]
