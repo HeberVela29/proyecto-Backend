@@ -1,0 +1,62 @@
+[
+  {
+    "title": "Salchichas",
+    "price": "407.00",
+    "thumbnail": "http://placeimg.com/640/480",
+    "id": 1
+  },
+  {
+    "title": "Pelota",
+    "price": "204.00",
+    "thumbnail": "http://placeimg.com/640/480",
+    "id": 2
+  },
+  {
+    "title": "Coche",
+    "price": "876.00",
+    "thumbnail": "http://placeimg.com/640/480",
+    "id": 3
+  },
+  {
+    "title": "Silla",
+    "price": "7.00",
+    "thumbnail": "http://placeimg.com/640/480",
+    "id": 4
+  },
+  {
+    "title": "Patatas fritas",
+    "price": "338.00",
+    "thumbnail": "http://placeimg.com/640/480",
+    "id": 5
+  },
+  {
+    "title": "Atún",
+    "price": "875.00",
+    "thumbnail": "http://placeimg.com/640/480",
+    "id": 6
+  },
+  {
+    "title": "Queso",
+    "price": "635.00",
+    "thumbnail": "http://placeimg.com/640/480",
+    "id": 7
+  },
+  {
+    "title": "Teclado",
+    "price": "286.00",
+    "thumbnail": "http://placeimg.com/640/480",
+    "id": 8
+  },
+  {
+    "title": "Coche",
+    "price": "684.00",
+    "thumbnail": "http://placeimg.com/640/480",
+    "id": 9
+  },
+  {
+    "title": "Ordenador",
+    "price": "503.00",
+    "thumbnail": "http://placeimg.com/640/480",
+    "id": 10
+  }
+]

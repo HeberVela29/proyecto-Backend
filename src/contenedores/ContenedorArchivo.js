@@ -1,86 +1,95 @@
-import { promises as fs } from 'fs'
-import config from '../config.js'
+import { promises as fs } from "fs";
+import addRandomProducts from "../faker.js";
 
 class ContenedorArchivo {
+  constructor(ruta) {
+    this.ruta = ruta;
+  }
 
-    constructor(ruta) {
-        this.ruta = `${config.fileSystem.path}/${ruta}`;
+  async listar(id) {
+    try {
+      const data = await this.listarAll();
+      const element = data.find((element) => id == element.id);
+      return element;
+    } catch (error) {
+      console.log(error);
     }
+  }
 
-    async listar(id) {
-        const objs = await this.listarAll()
-        const buscado = objs.find(o => o.id == id)
-        return buscado
+  async listarAll() {
+    try {
+      const read = await fs.readFile(this.ruta, "utf-8");
+      return JSON.parse(read);
+    } catch (error) {
+      console.log(error);
     }
+  }
 
-    async listarAll() {
-        try {
-            const objs = await fs.readFile(this.ruta, 'utf-8')
-            return JSON.parse(objs)
-        } catch (error) {
-            return []
-        }
+  async guardar(element) {
+    try {
+      const data = await this.listarAll();
+      let newId;
+      if (data.length == 0) {
+        newId = 1;
+      } else {
+        newId = data[data.length - 1].id + 1;
+      }
+      const newObj = { ...element, id: newId };
+      data.push(newObj);
+      await fs.writeFile(this.ruta, JSON.stringify(data, null, 2));
+      return newObj;
+    } catch (error) {
+      console.log(error);
     }
+    // try {
+    //     const data = await this.listarAll();
+    //     data.push(element);
 
-    async guardar(obj) {
-        const objs = await this.listarAll()
+    //     await fs.writeFile(this.ruta, JSON.stringify(data, null, 2), 'utf-8');
 
-        let newId
-        if (objs.length == 0) {
-            newId = 1
-        } else {
-            newId = objs[objs.length - 1].id + 1
-        }
+    //     return element;
+    // } catch (error) {
+    //     console.log(error);
+    // }
+  }
 
-        const newObj = { ...obj, id: newId }
-        objs.push(newObj)
+  async actualizar(elem) {
+    try {
+      let data = await this.listarAll();
 
-        try {
-            await fs.writeFile(this.ruta, JSON.stringify(objs, null, 2))
-            return newObj
-        } catch (error) {
-            throw new Error(`Error al guardar: ${error}`)
-        }
+      const filteredElements = data.filter((element) => element.id !== id);
+      const newElement = { id, ...elem };
+      data = [...filteredElements, newElement];
+
+      await fs.writeFile(this.ruta, JSON.stringify(data, null, 2), "utf-8");
+
+      return newElement;
+    } catch (error) {
+      console.log(error);
     }
+  }
 
-    async actualizar(elem) {
-        const objs = await this.listarAll()
-        const index = objs.findIndex(o => o.id == elem.id)
-        if (index == -1) {
-            throw new Error(`Error al actualizar: no se encontró el id ${id}`)
-        } else {
-            objs[index] = elem
-            try {
-                await fs.writeFile(this.ruta, JSON.stringify(objs, null, 2))
-            } catch (error) {
-                throw new Error(`Error al actualizar: ${error}`)
-            }
-        }
+  async borrar(id) {
+    try {
+      const data = await this.listarAll();
+
+      const newData = data.filter((element) => element.id != id);
+      await fs.writeFile(this.ruta, JSON.stringify(newData, null, 2), "utf-8");
+
+      return newData;
+    } catch (error) {
+      console.log(error);
     }
+  }
 
-    async borrar(id) {
-        const objs = await this.listarAll()
-        const index = objs.findIndex(o => o.id == id)
-        if (index == -1) {
-            throw new Error(`Error al borrar: no se encontró el id ${id}`)
-        }
-
-        objs.splice(index, 1)
-        try {
-            await fs.writeFile(this.ruta, JSON.stringify(objs, null, 2))
-        } catch (error) {
-            throw new Error(`Error al borrar: ${error}`)
-        }
+  async borrarAll() {
+    try {
+      await fs.writeFile(this.ruta, JSON.stringify([], null, 2), "utf-8");
+      return this.listarAll();
+    } catch (error) {
+      console.log(error);
     }
-
-    async borrarAll() {
-        try {
-            await fs.writeFile(this.ruta, JSON.stringify([], null, 2))
-        } catch (error) {
-            throw new Error(`Error al borrar todo: ${error}`)
-        }
-    }
+  }
 }
 
-
-export default ContenedorArchivo
+export default ContenedorArchivo;
