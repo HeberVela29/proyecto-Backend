@@ -1,67 +1,28 @@
 [
-  {
-    "author": {
-      "mail": "testMail",
-      "name": "testName",
-      "lastName": "testSurname",
-      "age": "testAge",
-      "username": "testUser",
-      "avatar": "testImg"
-    },
-    "text": "Hola!",
-    "date": "19/1/2023 21:56:21",
-    "id": 1
-  },
-  {
-    "author": {
-      "mail": "testMail",
-      "name": "testName",
-      "lastName": "testSurname",
-      "age": "testAge",
-      "username": "testUser",
-      "avatar": "http://placeimg.com/640/480"
-    },
-    "text": "Todo bien?",
-    "date": "19/1/2023 21:56:47",
-    "id": 2
-  },
-  {
-    "author": {
-      "mail": "vela.heber29@gmail.com",
-      "name": "Heber",
-      "lastName": "Vela",
-      "age": "27",
-      "username": "Heber29",
-      "avatar": "http://placeimg.com/640/480"
-    },
-    "text": "Soy yo",
-    "date": "19/1/2023 22:58:27",
-    "id": 3
-  },
-  {
-    "author": {
-      "mail": "vela.heber29@gmail.com",
-      "name": "Heber",
-      "lastName": "Vela",
-      "age": "27",
-      "username": "Heber29",
-      "avatar": "http://placeimg.com/640/480"
-    },
-    "text": "Soy yo de nuevo :)",
-    "date": "19/1/2023 22:58:53",
-    "id": 4
-  },
-  {
-    "author": {
-      "mail": "vela.heber29@gmail.com",
-      "name": "Heber",
-      "lastName": "Vela",
-      "age": "27",
-      "username": "Heber29",
-      "avatar": "http://placeimg.com/640/480"
-    },
-    "text": "Soy yo otra vez",
-    "date": "19/1/2023 22:59:26",
-    "id": 5
-  }
+    {
+        "author": {
+          "mail": "vela.heber29@gmail.com",
+          "name": "Heber",
+          "lastName": "Vela",
+          "age": "27",
+          "username": "Raigor",
+          "avatar": "https://cdn2.iconfinder.com/data/icons/ios-7-icons/50/tv-64.png"
+        },
+        "text": "Holaaa",
+        "date": "29/1/2023 23:09:46",
+        "id": 1
+      },
+      {
+        "author": {
+          "mail": "vela.heber29@gmail.com",
+          "name": "Heber",
+          "lastName": "Vela",
+          "age": "27",
+          "username": "Raigor",
+          "avatar": "https://cdn2.iconfinder.com/data/icons/ios-7-icons/50/tv-64.png"
+        },
+        "text": "Como va??",
+        "date": "29/1/2023 23:10:03",
+        "id": 2
+      }
 ]

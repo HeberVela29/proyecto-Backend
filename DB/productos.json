@@ -30,33 +30,15 @@
     "id": 5
   },
   {
-    "title": "Atún",
-    "price": "875.00",
-    "thumbnail": "http://placeimg.com/640/480",
+    "title": "Tv",
+    "price": "55000",
+    "thumbnail": "https://cdn2.iconfinder.com/data/icons/ios-7-icons/50/tv-64.png",
     "id": 6
   },
   {
-    "title": "Queso",
-    "price": "635.00",
-    "thumbnail": "http://placeimg.com/640/480",
+    "title": "Tv",
+    "price": "70000",
+    "thumbnail": "https://cdn2.iconfinder.com/data/icons/ios-7-icons/50/tv-64.png",
     "id": 7
-  },
-  {
-    "title": "Teclado",
-    "price": "286.00",
-    "thumbnail": "http://placeimg.com/640/480",
-    "id": 8
-  },
-  {
-    "title": "Coche",
-    "price": "684.00",
-    "thumbnail": "http://placeimg.com/640/480",
-    "id": 9
-  },
-  {
-    "title": "Ordenador",
-    "price": "503.00",
-    "thumbnail": "http://placeimg.com/640/480",
-    "id": 10
   }
 ]

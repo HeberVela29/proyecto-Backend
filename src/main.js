@@ -1,8 +1,14 @@
 import express from "express";
+import session from 'express-session';
+import MongoStore from 'connect-mongo';
+
 import { Server as HttpServer } from "http";
 import { Server as Socket } from "socket.io";
 
 import ContenedorArchivo from "./contenedores/ContenedorArchivo.js";
+
+import authWebRouter from './routers/web/auth.js';
+import homeWebRouter from './routers/web/home.js';
 
 import config from "./config.js";
 
@@ -113,6 +119,22 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
+app.set('view engine', 'ejs');
+
+app.use(session({
+  // store: MongoStore.create({ mongoUrl: config.mongoLocal.cnxStr }),
+  store: MongoStore.create({ mongoUrl: config.mongoRemote.cnxStr }),
+  secret: 'secreto',
+  resave: false,
+  saveUninitialized: false,
+  rolling: true,
+  cookie: {
+      maxAge: 60000
+  }
+}))
+
+app.use(authWebRouter)
+app.use(homeWebRouter)
 //--------------------------------------------
 // inicio el servidor
 
