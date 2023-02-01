@@ -21,15 +21,6 @@ export default {
         },
         useNullAsDefault: true
     },
-    mariaDb: {
-        client: 'mysql',
-        connection: {
-            host: 'localhost',
-            user: 'coderhouse',
-            password: 'coderhouse',
-            database: 'coderhouse'
-        }
-    },
     fileSystem: {
         path: './DB'
     }

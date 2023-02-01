@@ -1,149 +1,94 @@
-import express from "express";
-import session from 'express-session';
-import MongoStore from 'connect-mongo';
+import express from 'express'
+import session from 'express-session'
+import MongoStore from 'connect-mongo'
+import cookieParser from 'cookie-parser'
+import passport from 'passport'
 
-import { Server as HttpServer } from "http";
-import { Server as Socket } from "socket.io";
+import config from './config.js'
 
-import ContenedorArchivo from "./contenedores/ContenedorArchivo.js";
+import { Server as HttpServer } from 'http'
+import { Server as Socket } from 'socket.io'
 
-import authWebRouter from './routers/web/auth.js';
-import homeWebRouter from './routers/web/home.js';
+import authWebRouter from './routers/web/auth.js'
+import homeWebRouter from './routers/web/home.js'
+import productosApiRouter from './routers/api/productos.js'
 
-import config from "./config.js";
+import addProductosHandlers from './routers/ws/productos.js'
+import addMensajesHandlers from './routers/ws/mensajes.js'
 
-import faker from "faker";
-faker.locale = "es";
-import addRandomProducts from "./faker.js";
+import objectUtils from './utils/objectUtils.js'
 
-import { normalize, schema } from "normalizr";
-import util from 'util'
-function print(objeto) {
-    console.log(util.inspect(objeto, false, 12, true));
-}
-
-//--------------------------------------------
-// instancio servidor, socket y api
-
-const app = express();
-const httpServer = new HttpServer(app);
-const io = new Socket(httpServer);
-
-const productosApi = new ContenedorArchivo(
-  `${config.fileSystem.path}/productos.json`
-);
-const mensajesApi = new ContenedorArchivo(
-  `${config.fileSystem.path}/mensajes.json`
-);
+import path from 'path';
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 //--------------------------------------------
-// NORMALIZACIÓN DE MENSAJES
+// instancio servidor, socket , api y passport
 
-// Definimos un esquema de autor
-const authorSchema = new schema.Entity("authors", {}, { idAttribute: "mail" });
+const app = express()
+const httpServer = new HttpServer(app)
+const io = new Socket(httpServer)
 
-// Definimos un esquema de mensaje
-const textSchema = new schema.Entity("text");
+app.use(passport.initialize())
 
-// Definimos un esquema de posts
-const mensajeSchema = new schema.Entity("messages", {
-  author: authorSchema,
-  text: [textSchema],
-});
 
 //--------------------------------------------
 // configuro el socket
 
-io.on("connection", async (socket) => {
-    // ---- CHAT ----
-  // // carga inicial de mensajes
-  // const messages = await mensajesApi.listarAll();
-  // socket.emit("messages", messages);
-
-  // // actualizacion de mensajes
-  // socket.on("newMessage", async (message) => {
-  //   mensajesApi.guardar(message);
-  //   const messages = await mensajesApi.listarAll();
-  //   io.sockets.emit("messages", messages);
-  // });
-
-  listarMensajes().then((messages) => {
-    socket.emit("messages", messages);
-  });
-
-  socket.on("newMessage", async (data) => {
-    console.log('Msj enviado');
-    mensajesApi.guardar(data);
-    await listarMensajes().then((res) => {
-      io.sockets.emit("mensajes", res);
-    });
-  });
-
-  // ---- PRODUCTOS ----
-  // carga inicial de productos con faker
-  // async function addProductsFaker() {
-  //   for (let i = 0; i < 5; i++) {
-  //     await productosApi.guardar(addRandomProducts());
-  //   }
-  //   const productos = await productosApi.listarAll();
-  //   socket.emit("productos", productos);
-  // }
-
-  // await addProductsFaker();
-
-  const productos = await productosApi.listarAll();
-  socket.emit("productos", productos);
-
-  // actualizacion de productos
-  socket.on("newProduct", async (data) => {
-    productosApi.guardar(data);
-    const productos = await productosApi.listarAll();
-    io.sockets.emit("productos", productos);
-  });
+io.on('connection', async socket => {
+    // console.log('Nuevo cliente conectado!');
+    addProductosHandlers(socket, io.sockets)
+    addMensajesHandlers(socket, io.sockets)
 });
 
-async function listarMensajes() {
-  const archivoMensajes = await mensajesApi.listarAll();
-  const normalizados = normalizarMensajes(archivoMensajes);
-  print(normalizados);
-  return normalizados;
-}
-
-const normalizarMensajes = (mensajesConId) =>
-  normalize(mensajesConId, [mensajeSchema]);
-
 //--------------------------------------------
-// agrego middlewares
+// configuro el servidor
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static("public"));
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+app.use(express.static('public'))
 
 app.set('view engine', 'ejs');
 
-app.use(session({
-  // store: MongoStore.create({ mongoUrl: config.mongoLocal.cnxStr }),
-  store: MongoStore.create({ mongoUrl: config.mongoRemote.cnxStr }),
-  secret: 'secreto',
-  resave: false,
-  saveUninitialized: false,
-  rolling: true,
-  cookie: {
-      maxAge: 60000
-  }
-}))
+app.use(cookieParser())
+app.use(objectUtils.createOnMongoStore())
+
+// MIDDLEWARE PASSPORT
+app.use(passport.initialize())
+app.use(passport.session())
+
+// app.use(session({
+//     // store: MongoStore.create({ mongoUrl: config.mongoLocal.cnxStr }),
+//     store: MongoStore.create({ mongoUrl: config.mongoRemote.cnxStr }),
+//     secret: 'secreto',
+//     resave: false,
+//     saveUninitialized: false,
+//     rolling: true,
+//     cookie: {
+//         maxAge: 60000
+//     }
+// }))
+import auth from './routers/web/auth.js'
+const sessions = auth
+app.use('/api/sessions', sessions)
+//req.session.passport.user
+
+//--------------------------------------------
+// rutas del servidor API REST
+
+app.use(productosApiRouter)
+
+//--------------------------------------------
+// rutas del servidor web
 
 app.use(authWebRouter)
 app.use(homeWebRouter)
+
 //--------------------------------------------
 // inicio el servidor
 
-const PORT = 8080;
-const connectedServer = httpServer.listen(PORT, () => {
-  console.log(
-    `Servidor http escuchando en el puerto ${connectedServer.address().port}`
-  );
-});
-connectedServer.on("error", (error) =>
-  console.log(`Error en servidor ${error}`)
-);
+const connectedServer = httpServer.listen(config.PORT, () => {
+    console.log(`Servidor http escuchando en el puerto ${connectedServer.address().port}`)
+})
+connectedServer.on('error', error => console.log(`Error en servidor ${error}`))

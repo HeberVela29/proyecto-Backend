@@ -40,5 +40,11 @@
     "price": "70000",
     "thumbnail": "https://cdn2.iconfinder.com/data/icons/ios-7-icons/50/tv-64.png",
     "id": 7
+  },
+  {
+    "title": "TeVe",
+    "price": "80000",
+    "thumbnail": "https://cdn2.iconfinder.com/data/icons/ios-7-icons/50/tv-64.png",
+    "id": 8
   }
 ]
