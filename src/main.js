@@ -12,6 +12,7 @@ import { Server as Socket } from 'socket.io'
 import authWebRouter from './routers/web/auth.js'
 import homeWebRouter from './routers/web/home.js'
 import productosApiRouter from './routers/api/productos.js'
+import randomsApiRouter from './routers/api/randoms.js'
 
 import addProductosHandlers from './routers/ws/productos.js'
 import addMensajesHandlers from './routers/ws/mensajes.js'
@@ -53,6 +54,7 @@ app.set('view engine', 'ejs');
 
 app.use(cookieParser())
 app.use(objectUtils.createOnMongoStore())
+//app.use(session(config.session))
 
 // MIDDLEWARE PASSPORT
 app.use(passport.initialize())
@@ -78,6 +80,7 @@ app.use('/api/sessions', sessions)
 // rutas del servidor API REST
 
 app.use(productosApiRouter)
+app.use(randomsApiRouter)
 
 //--------------------------------------------
 // rutas del servidor web

@@ -1,12 +1,31 @@
+import dotenv from 'dotenv';
+import minimist from "minimist";
+
+dotenv.config()
+
+
+const argv = minimist(process.argv.slice(2), { alias: { p: 'port' }, default: { port: 8080 } })
+
+const sessionConfig = {
+    secret: 'secreto',
+    resave: false,
+    saveUninitialized: false,
+    rolling: true,
+    cookie: {
+        maxAge: 60000
+    }
+};
+
 export default {
-    PORT: process.env.PORT || 8080,
+    PORT: argv.port,
+    session: sessionConfig,
     mongoLocal: {
         client: 'mongodb',
-        cnxStr: 'mongodb://localhost:27017/coderhouse'
+        cnxStr: process.env.MONGODB_LOCAL
     },
     mongoRemote: {
         client: 'mongodb',
-        cnxStr: 'mongodb+srv://Heber29:Heber29@cluster0.8wmikpx.mongodb.net/test',
+        cnxStr: process.env.MONGODB_REMOTO,
         options: {
                 useNewUrlParser: true,
                 useUnifiedTopology: true,
@@ -22,6 +41,6 @@ export default {
         useNullAsDefault: true
     },
     fileSystem: {
-        path: './DB'
+        path: process.env.FILESYSTEM
     }
 }
