@@ -1,19 +1,8 @@
-import { Router } from 'express'
-import { webAuth } from '../../auth/index.js'
-import config from '../../config.js'
+import { Router } from "express";
+import { getHome } from "../../controllers/home.Controllers.js";
 
-import path from 'path'
+const homeWebRouter = new Router();
 
-const productosWebRouter = new Router()
+homeWebRouter.get("/home", getHome);
 
-productosWebRouter.get('/home', webAuth, (req, res) => {
-    // res.sendFile('main.html', {root: 'public'})
-    res.render(path.join(process.cwd(), '/views/pages/home.ejs'), { nombre: req.session.nombre })
-})
-
-productosWebRouter.get('/productos-vista-test', (req, res) => {
-    res.sendFile('productos-vista-test.html', { root: 'public' })
-})
-
-
-export default productosWebRouter
+export default homeWebRouter;

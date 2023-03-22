@@ -1,9 +1,0 @@
-server modo fork: node server.js -p 8091 -m FORK
-
-server modo cluster: node server.js -p 8091 -m CLUSTER 
-
-forever: forever start server.js -p 8091
-
-pm2 modo fork: pm2 start pm2.config.cjs --only Backend-fork  
-
-pm2 modo cluster: pm2 start pm2.config.cjs --only Backend-cluster
