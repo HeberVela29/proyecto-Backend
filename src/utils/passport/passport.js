@@ -4,9 +4,8 @@ const LocalStrategy = Strategy;
 
 import { verifyPassword } from "../bcrypt/bcrypt.js";
 
-import ContainerMongoDB from "../../models/containers/ContainerMongoDB.js";
-import userSchema from "../../models/schemas/userSchema.js";
-const usersApi = new ContainerMongoDB(userSchema);
+import UserDAOMongoDB from "../../models/daos/User.DAO.js";
+const usersApi = new UserDAOMongoDB();
 
 
 /*----------- passport -----------*/

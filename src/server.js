@@ -6,7 +6,7 @@ import MongoStore from "connect-mongo";
 import { Server as HttpServer } from "http";
 import { Server as Socket } from "socket.io";
 
-import config from "./config.js";
+import config from "./config/config.js";
 import authWebRouter from "./routers/web/auth.js";
 import homeWebRouter from "./routers/web/home.js";
 import cartWebRouter from "./routers/web/cart.js";

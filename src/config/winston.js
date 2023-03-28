@@ -22,14 +22,4 @@ const logger = createLogger({
   ],
 });
 
-export function logInfo(msj) {
-  logger.info(msj);
-}
-
-export function logWarn(msj) {
-  logger.warn(msj);
-}
-
-export function logError(msj) {
-  logger.error(msj);
-}
+export default logger;

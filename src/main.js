@@ -2,7 +2,7 @@ import cluster from "cluster";
 import { cpus } from "os";
 
 import { createServer } from "./server.js";
-import config from "./config.js";
+import config from "./config/config.js";
 
 const app = createServer();
 

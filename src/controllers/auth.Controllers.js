@@ -2,12 +2,11 @@ import { generateHashPassword } from "../utils/bcrypt/bcrypt.js";
 
 import { sendNewUserEmail } from "../utils/nodemailer/nodemailer.js";
 
-import ContainerMongoDB from "../models/containers/ContainerMongoDB.js";
-import userSchema from "../models/schemas/userSchema.js";
-import cartSchema from "../models/schemas/cartSchema.js";
+import CartDAOMongoDB from "../models/daos/Cart.DAO.js";
+import UserDAOMongoDB from "../models/daos/User.DAO.js";
 
-const usersApi = new ContainerMongoDB(userSchema);
-const cartApi = new ContainerMongoDB(cartSchema);
+const cartApi = new CartDAOMongoDB();
+const usersApi = new UserDAOMongoDB();
 
 export const getLogin = async (req, res) => {
     res.render("auth/login.ejs");
