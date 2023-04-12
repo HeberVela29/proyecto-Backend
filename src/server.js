@@ -1,6 +1,7 @@
 import express from "express";
 import session from "express-session";
 import compression from "compression";
+import cors from "cors";
 import MongoStore from "connect-mongo";
 
 import { Server as HttpServer } from "http";
@@ -11,9 +12,11 @@ import authWebRouter from "./routers/web/auth.js";
 import homeWebRouter from "./routers/web/home.js";
 import cartWebRouter from "./routers/web/cart.js";
 import profileWebRouter from "./routers/web/profile.js";
+import { api } from "../src/api/productos.js";
 
 import productsWs from "./routers/ws/home.js"
 import cartWs from "./routers/ws/cart.js"
+
 
 function createServer() {
   const app = express();
@@ -29,6 +32,7 @@ function createServer() {
   app.use(express.urlencoded({ extended: true }));
   app.use(express.static("public"));
 
+  app.use(cors());
   app.use(compression());
 
   app.set("view engine", "ejs");
@@ -54,6 +58,7 @@ function createServer() {
   app.use(homeWebRouter);
   app.use(cartWebRouter);
   app.use(profileWebRouter);
+  app.use('/apiProductos', api);
 
   return {
     listen: (port) =>
