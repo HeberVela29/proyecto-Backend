@@ -14,6 +14,11 @@ import cartWebRouter from "./routers/web/cart.js";
 import profileWebRouter from "./routers/web/profile.js";
 import { api } from "../src/api/productos.js";
 
+import { graphqlHTTP } from 'express-graphql'
+import ProductsSchema from './graphql/schema.js'
+import { getProducts, getProductsById, saveProduct, updateProduct, deleteProduct } from './graphql/resolvers.js'
+
+
 import productsWs from "./routers/ws/home.js"
 import cartWs from "./routers/ws/cart.js"
 
@@ -59,6 +64,19 @@ function createServer() {
   app.use(cartWebRouter);
   app.use(profileWebRouter);
   app.use('/apiProductos', api);
+
+  //  Api Rest con GraphQL
+  app.use('/graphql', graphqlHTTP({
+    schema: ProductsSchema,
+    rootValue: {
+      getProducts,
+      getProductsById,
+      saveProduct,
+      updateProduct,
+      deleteProduct
+    },
+    graphiql: true,
+  }))
 
   return {
     listen: (port) =>
