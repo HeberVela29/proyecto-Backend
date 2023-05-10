@@ -1,2 +1,2 @@
 # proyecto-Backend
-Deployed on Railway: proyecto-backend.up.railway.app
+Deployed on Railway: https://proyecto-backend.up.railway.app/login
