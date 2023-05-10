@@ -7,21 +7,19 @@ import MongoStore from "connect-mongo";
 import { Server as HttpServer } from "http";
 import { Server as Socket } from "socket.io";
 
+import productsWs from "./routes/ws/home.js";
+import cartWs from "./routes/ws/cart.js";
+import chatWs from "./routes/ws/chat.js";
+import adminHomeWs from "./routes/ws/admin-home.js";
+import adminChatWs from "./routes/ws/admin-chat.js";
+
 import config from "./config/config.js";
-import authWebRouter from "./routers/web/auth.js";
-import homeWebRouter from "./routers/web/home.js";
-import cartWebRouter from "./routers/web/cart.js";
-import profileWebRouter from "./routers/web/profile.js";
-import { api } from "../src/api/productos.js";
-
-import { graphqlHTTP } from 'express-graphql'
-import ProductsSchema from './graphql/schema.js'
-import { getProducts, getProductsById, saveProduct, updateProduct, deleteProduct } from './graphql/resolvers.js'
-
-
-import productsWs from "./routers/ws/home.js"
-import cartWs from "./routers/ws/cart.js"
-
+import authWebRouter from "./routes/auth.js";
+import homeWebRouter from "./routes/home.js";
+import profileWebRouter from "./routes/profile.js";
+import cartWebRouter from "./routes/cart.js";
+import adimnWebRouter from "./routes/admin.js";
+import chatWebRouter from "./routes/chat.js";
 
 function createServer() {
   const app = express();
@@ -31,6 +29,9 @@ function createServer() {
   io.on("connection", async (socket) => {
     productsWs(socket);
     cartWs(socket);
+    chatWs(socket);
+    adminHomeWs(socket);
+    adminChatWs(socket);
   });
 
   app.use(express.json());
@@ -41,7 +42,7 @@ function createServer() {
   app.use(compression());
 
   app.set("view engine", "ejs");
-  app.set("views", "./views");
+  app.set("views", "views");
 
   app.use(
     session({
@@ -53,7 +54,7 @@ function createServer() {
       resave: false,
       saveUninitialized: false,
       cookie: {
-        maxAge: 60000,
+        maxAge: 600000,
       },
     })
   );
@@ -63,20 +64,8 @@ function createServer() {
   app.use(homeWebRouter);
   app.use(cartWebRouter);
   app.use(profileWebRouter);
-  app.use('/apiProductos', api);
-
-  //  Api Rest con GraphQL
-  app.use('/graphql', graphqlHTTP({
-    schema: ProductsSchema,
-    rootValue: {
-      getProducts,
-      getProductsById,
-      saveProduct,
-      updateProduct,
-      deleteProduct
-    },
-    graphiql: true,
-  }))
+  app.use(chatWebRouter);
+  app.use("/admin", adimnWebRouter);
 
   return {
     listen: (port) =>

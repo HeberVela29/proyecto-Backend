@@ -12,7 +12,7 @@ class ContainerMongoDB {
     try {
       await this.conn.connect();
 
-      const elem = await this.coleccion.find({ id: id });
+      const elem = await this.coleccion.find({ _id: id });
       return elem;
     } catch (error) {
       const objErr = new CustomError(500, 'Error getById()', error);
@@ -54,14 +54,10 @@ class ContainerMongoDB {
     }
   }
 
-  async update(newElem) {
+  async update(id, newElem) {
     try {
       await this.conn.connect();
-
-      await this.coleccion.deleteOne({ id: newElem.id });
-      const newElemSave = new this.coleccion(newElem);
-      const savedNewElem = await newElemSave.save();
-      return savedNewElem;
+      await this.coleccion.updateOne({_id: id}, { $set: newElem });
     } catch (error) {
       const objErr = new CustomError(500, 'Error update()', error);
       logger.error(objErr);

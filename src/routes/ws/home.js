@@ -2,8 +2,8 @@ import express from "express";
 import { Server as HttpServer } from "http";
 import { Server as Socket } from "socket.io";
 
-import ProductsDAOMongoDB from "../../models/daos/Products.DAO.js";
-import CartDAOMongoDB from "../../models/daos/Cart.DAO.js";
+import ProductsDAOMongoDB from "../../models/dao/Products.DAO.js";
+import CartDAOMongoDB from "../../models/dao/Cart.DAO.js";
 import logger from "../../config/winston.js";
 
 const productsApi = new ProductsDAOMongoDB();
@@ -29,19 +29,22 @@ export default async function configurarSocket(socket) {
   // agregar producto al carrito
   socket.on("addProduct", async (addingProduct) => {
     try {
-      const cart = await getCart(addingProduct.cartID);
+      const cart = await getCart(addingProduct.userEmail);
       const product = await getProduct(addingProduct.productID);
-      const cartItems = cart.items;
-      await cartItems.push(product);
 
-      const newCart = {
-        id: addingProduct.cartID,
-        items: cartItems
+      const productInCar = cart.items.find(p => p._id == addingProduct.productID);
+
+      if (productInCar !== undefined) {
+        productInCar.qty += 1;
+        await cartApi.update(cart._id, { items: cart.items });
+
+        socket.emit("addedProduct");
+      } else {
+        cart.items.push({...product._doc, qty: 1});
+        await cartApi.update(cart._id, { items: cart.items });
+
+        socket.emit("addedProduct");
       }
-
-      await cartApi.update(newCart);
-
-      socket.emit("addedProduct", product);
     } catch (error) {
       logger.info(error);
     }
@@ -57,10 +60,11 @@ async function getProducts() {
   }
 }
 
-async function getCart(cartID) {
+async function getCart(userEmail) {
   try {
-    const cart = await cartApi.getById(cartID);
-    return cart[0];
+    const cartsDB = await cartApi.getAll();
+    const cart = cartsDB.find(cart => cart.email == userEmail);
+    return cart;
   } catch (error) {
     logger.info(error);
   }

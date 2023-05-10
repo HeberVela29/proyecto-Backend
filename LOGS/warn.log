@@ -5,3 +5,16 @@
 {"level":"error","message":{"codigo":500,"descripcion":"Error save()","detalle":{"_message":"products validation failed","errors":{"id":{"kind":"required","message":"Path `id` is required.","name":"ValidatorError","path":"id","properties":{"message":"Path `id` is required.","path":"id","type":"required"}}},"message":"products validation failed: id: Path `id` is required.","name":"ValidationError"}}}
 {"level":"error","message":{"codigo":500,"descripcion":"Error save()","detalle":{"code":11000,"index":0,"keyPattern":{"_id":1},"keyValue":{"_id":"64108b318106177954d52b72"}}}}
 {"level":"error","message":{"codigo":500,"descripcion":"Error save()","detalle":{"_message":"products validation failed","errors":{"product":{"kind":"required","message":"Path `product` is required.","name":"ValidatorError","path":"product","properties":{"message":"Path `product` is required.","path":"product","type":"required"}}},"message":"products validation failed: product: Path `product` is required.","name":"ValidationError"}}}
+{"level":"error","message":{"codigo":500,"descripcion":"Error getAll()","detalle":{}}}
+{"level":"error","message":{"codigo":500,"descripcion":"Error getById()","detalle":{}}}
+{"level":"error","message":{"codigo":500,"descripcion":"Error getAll()","detalle":{}}}
+{"level":"error","message":{"codigo":500,"descripcion":"Error getAll()","detalle":{}}}
+{"level":"error","message":{"codigo":500,"descripcion":"Error getById()","detalle":{}}}
+{"level":"error","message":{"codigo":500,"descripcion":"Error getAll()","detalle":{}}}
+{"level":"error","message":{"codigo":500,"descripcion":"Error getById()","detalle":{}}}
+{"level":"error","message":{"codigo":500,"descripcion":"Error getAll()","detalle":{}}}
+{"level":"error","message":{"codigo":500,"descripcion":"Error getAll()","detalle":{}}}
+{"level":"error","message":{"codigo":500,"descripcion":"Error getAll()","detalle":{}}}
+{"level":"error","message":{"codigo":500,"descripcion":"Error getById()","detalle":{}}}
+{"level":"error","message":{"codigo":500,"descripcion":"Error getAll()","detalle":{}}}
+{"level":"error","message":{"codigo":500,"descripcion":"Error al conectarse con MongoDB","detalle":{"cause":{"address":"54.232.37.198","code":"ETIMEDOUT","errno":-4039,"port":27017,"syscall":"connect"},"connectionGeneration":0}}}

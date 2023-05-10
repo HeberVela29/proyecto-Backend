@@ -11,26 +11,27 @@ socket.on("products", (products) => {
   btsAddToCart();
 });
 
-// producto agregado
-socket.on("addedProduct", () =>{
-  const toastLiveExample = document.getElementById("liveToast");
-  const toast = new bootstrap.Toast(toastLiveExample);
-  toast.show();
-})
-
 // agregar producto al carrito
 function btsAddToCart() {
   const btnAddToCartList = document.getElementsByClassName("btnAddToCart");
   for (let i = 0; i < btnAddToCartList.length; i++) {
     btnAddToCartList[i].addEventListener("click", async (e) => {
       const addingProduct = {
-        cartID: userEmail,
+        userEmail: userEmail,
         productID: e.target.id,
       };
+      
       await socket.emit("addProduct", addingProduct);
     });
   }
 }
+
+// producto agregado
+socket.on("addedProduct", () =>{
+  const toastLiveExample = document.getElementById("liveToast");
+  const toast = new bootstrap.Toast(toastLiveExample);
+  toast.show();
+})
 
 function makeProductsTable(items) {
   const html = items
@@ -40,7 +41,7 @@ function makeProductsTable(items) {
                 <div class="card-body">
                   <h3 class="card-title">${item.product}</h3>
                   <h5 class="card-title">$ ${item.price}</h5>
-                  <button type="button" class="btn btn-primary btnAddToCart" id='${item.id}'>
+                  <button type="button" class="btn btn-primary btnAddToCart" id='${item._id}'>
                     Add to cart
                   </button>
                 </div>

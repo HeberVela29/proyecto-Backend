@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getHome } from "../../controllers/home.Controllers.js";
+import { getHome } from "../controllers/home.Controllers.js";
 
 const homeWebRouter = new Router();
 
