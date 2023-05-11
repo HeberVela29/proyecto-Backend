@@ -3,7 +3,7 @@
 <body>
     <div class="container mt-3">
         <div class="jumbotron">
-            <h1>Registrar Usuario</h1>
+            <h1>Registrar usuario</h1>
             <br />
             <form enctype="multipart/form-data" class="form" action="/signin" method="post" role="form" autocomplete="off">
                 <div>
@@ -19,7 +19,7 @@
                     <br />
                     <label for="adress">Ingrese su dirección</label>
                     <input id="adress" class="form-control" type="text" name="adress" required
-                        placeholder="Example 9999" />
+                        placeholder="Long Avenue 749" />
                     <br />
                     <label for="avatar" class="form-label">Ingrese su foto de perfil</label>
                     <input id="avatar" class="form-control" type="file" name="avatar" required>
@@ -31,10 +31,10 @@
                     <label for="password">Ingrese su contraseña</label>
                     <input id="password" class="form-control" type="password" name="password" required />
                 </div>
-                <input class="btn btn-success my-3" type="submit" value="Registrar" />
+                <input class="btn btn-primary my-3" type="submit" value="Registrar" />
             </form>
             <hr />
-            <button class="btn btn-success my-3" onclick="location.href = '/login'">
+            <button class="btn btn-primary my-3" onclick="location.href = '/login'">
                 Ir a Login
             </button>
         </div>
